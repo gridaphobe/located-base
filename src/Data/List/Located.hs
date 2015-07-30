@@ -1,7 +1,13 @@
 {-# LANGUAGE ImplicitParams #-}
-module Data.List.Located where
+module Data.List.Located
+  ( module Data.List
+  , head, tail, last, init, foldr1, foldl1, foldl1'
+  , maximum, minimum, cycle, (!!)
+  ) where
 
-import Data.List (foldl')
+import Data.List hiding ( head, tail, last, init, foldr1, foldl1, foldl1'
+                        , maximum, minimum, cycle, (!!)
+                        )
 import qualified GHC.Err.Located as L
 import GHC.Stack
 import Prelude hiding ( head, tail, last, init, foldr1, foldl1, foldl1'

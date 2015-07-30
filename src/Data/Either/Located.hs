@@ -1,6 +1,10 @@
 {-# LANGUAGE ImplicitParams #-}
-module Data.Either.Located where
+module Data.Either.Located
+  ( module Data.Either
+  , fromRight, fromLeft
+  ) where
 
+import Data.Either
 import qualified GHC.Err.Located as L
 import GHC.Stack
 

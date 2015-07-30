@@ -1,6 +1,10 @@
 {-# LANGUAGE ImplicitParams #-}
-module Data.Maybe.Located where
+module Data.Maybe.Located
+  ( module Data.Maybe
+  , fromJust
+  ) where
 
+import Data.Maybe hiding (fromJust)
 import qualified GHC.Err.Located as L
 import GHC.Stack
 
