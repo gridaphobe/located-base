@@ -15,7 +15,8 @@ undefined = error "Prelude.undefined"
 
 showCallStack :: CallStack -> String
 showCallStack stk = case getCallStack stk of
-  _:locs -> unlines $ map format locs
+  _:locs -> unlines $ "Callstack:" : map format locs
   _ -> Prelude.error "showCallStack: empty call-stack"
   where
+  unlines = foldr1 (\x y -> x ++ "\n" ++ y)
   format (fn, loc) = printf "  %s, called at %s" fn (showSrcLoc loc)
