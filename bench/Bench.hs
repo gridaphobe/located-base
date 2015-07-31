@@ -13,12 +13,12 @@ import System.IO.Unsafe
 main = defaultMain
   [ bgroup "head"
     [ bgroup "bad"
-      [ bench "noloc" $ whnfIO $ throws $ head []
-      , bench "loc"   $ whnfIO $ throws $ L.head []
+      [ bench "noloc" $ whnfIO $ throws $ myhead []
+      , bench "loc"   $ whnfIO $ throws $ myheadL []
       ]
     , bgroup "good"
-      [ bench "noloc" $ whnf head [5]
-      , bench "loc"   $ whnf L.head [5]
+      [ bench "noloc" $ whnf myhead [5]
+      , bench "loc"   $ whnf myheadL [5]
       ]
     ]
   , bgroup "loop"
@@ -35,6 +35,14 @@ main = defaultMain
 
 throws :: a -> IO (Either SomeException a)
 throws = try . evaluate
+
+myhead :: [a] -> a
+myhead [x] = x
+myhead [] = undefined
+
+myheadL :: (?callStack :: CallStack) => [a] -> a
+myheadL [x] = x
+myheadL [] = L.undefined
 
 loop :: Int -> Int -> Int
 loop 0 z = z
