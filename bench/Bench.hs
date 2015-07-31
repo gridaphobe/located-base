@@ -11,21 +11,35 @@ import GHC.Stack
 import System.IO.Unsafe
 
 main = defaultMain
-  [ bgroup "head" [ bench "noloc" $ whnfIO $ throws $ head []
-                  , bench "loc"   $ whnfIO $ throws $ L.head []
-                  ]
-  , bgroup "loop" [ bench "noloc" $ whnfIO $ throws $ loop 5
-                  , bench "loc"   $ whnfIO $ throws $ loopL 5
-                  ]
+  [ bgroup "head"
+    [ bgroup "bad"
+      [ bench "noloc" $ whnfIO $ throws $ head []
+      , bench "loc"   $ whnfIO $ throws $ L.head []
+      ]
+    , bgroup "good"
+      [ bench "noloc" $ whnf head [5]
+      , bench "loc"   $ whnf L.head [5]
+      ]
+    ]
+  , bgroup "loop"
+    [ bgroup "bad"
+      [ bench "noloc" $ whnfIO $ throws $ loop 5 undefined
+      , bench "loc"   $ whnfIO $ throws $ loopL 5 L.undefined
+      ]
+    , bgroup "good"
+      [ bench "noloc" $ whnfIO $ throws $ loop 5 0
+      , bench "loc"   $ whnfIO $ throws $ loopL 5 0
+      ]
+    ]
   ]
 
 throws :: a -> IO (Either SomeException a)
 throws = try . evaluate
 
-loop :: Int -> Int
-loop 0 = undefined
-loop n = loop (n-1)
+loop :: Int -> Int -> Int
+loop 0 z = z
+loop n z = loop (n-1) z
 
-loopL :: (?callStack :: CallStack) => Int -> Int
-loopL 0 = L.undefined
-loopL n = loopL (n-1)
+loopL :: (?callStack :: CallStack) => Int -> Int -> Int
+loopL 0 z = z
+loopL n z = loopL (n-1) z
