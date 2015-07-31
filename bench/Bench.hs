@@ -27,8 +27,8 @@ main = defaultMain
       , bench "loc"   $ whnfIO $ throws $ loopL 5 L.undefined
       ]
     , bgroup "good"
-      [ bench "noloc" $ whnfIO $ throws $ loop 5 0
-      , bench "loc"   $ whnfIO $ throws $ loopL 5 0
+      [ bench "noloc" $ whnf (loop 5) 0
+      , bench "loc"   $ whnf (loopL 5) 0
       ]
     ]
   ]
