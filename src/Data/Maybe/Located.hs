@@ -1,4 +1,4 @@
-{-# LANGUAGE ImplicitParams #-}
+{-# LANGUAGE FlexibleContexts #-}
 module Data.Maybe.Located
   ( module Data.Maybe
   , fromJust
@@ -6,9 +6,8 @@ module Data.Maybe.Located
 
 import Data.Maybe hiding (fromJust)
 import qualified GHC.Err.Located as L
-import GHC.Stack
 
-fromJust :: (?callStack :: CallStack)
+fromJust :: L.HasCallStack
          => Maybe a -> a
 fromJust (Just x) = x
 fromJust Nothing  = L.error "Maybe.fromJust: Nothing"
