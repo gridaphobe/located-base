@@ -1,10 +1,10 @@
 {-# LANGUAGE FlexibleContexts #-}
 module Data.Either.Located
-  ( module Data.Either
+  ( module E
   , fromRight, fromLeft
   ) where
 
-import Data.Either
+import qualified Data.Either as E
 import qualified GHC.Err.Located as L
 
 fromRight :: L.HasCallStack
