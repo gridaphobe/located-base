@@ -1,5 +1,5 @@
 name:                located-base
-version:             0.1.1.0
+version:             0.1.1.1
 synopsis:            Location-aware variants of partial functions
 description:         This library provides variants of standard partial functions
                      that include their call-site in the error message when they crash.
